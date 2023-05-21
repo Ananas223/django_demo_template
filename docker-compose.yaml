@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  backend:
+    image: aleksandrbabuskin/django_demo:latest
+    ports:
+      - "8082:80"
