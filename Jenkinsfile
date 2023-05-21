@@ -1,9 +1,8 @@
 pipeline {
-    agent {
-        docker { image 'python:3.10' }
-    }
+    agent none
     stages {
         stage('test') {
+            agent { docker { image 'python:3.10' } }
             steps {
                 sh '''
                     pwd
@@ -15,12 +14,13 @@ pipeline {
             }
         }
         stage('build') {
+            agent { docker { image 'python:3.10' } }
             steps {
                 sh 'docker build . -t aleksandrbabuskin/django_demo:${GIT_COMMIT} -t aleksandrbabuskin/django_demo:latest'
             }
         }
         stage('push') {
-            agent any
+            agent { docker { image 'python:3.10' } }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh 'docker login -u ${USERNAME} -p ${PASSWORD}'
